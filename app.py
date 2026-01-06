@@ -6,9 +6,9 @@ import pandas as pd
 import urllib.parse
 
 # --- 1. PAGE CONFIGURATION ---
-st.set_page_config(page_title="ResuMatch AI", layout="wide", page_icon="🚀")
+st.set_page_config(page_title="ResumeMatch AI", layout="wide", page_icon="🚀")
 
-# --- 2. CSS STYLING (Dark Mode Friendly) ---
+
 st.markdown("""
     <style>
     /* BASIC RESET */
@@ -122,7 +122,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- 3. CONFIG & FUNCTIONS ---
+
 api_key = st.secrets["GEMINI_API_KEY"] if "GEMINI_API_KEY" in st.secrets else "YOUR_KEY"
 genai.configure(api_key=api_key, transport='rest')
 
@@ -140,15 +140,15 @@ def get_links(job):
         "GL": f"https://www.google.com/search?q={q}+jobs"
     }
 
-# --- 4. HEADER ---
+
 st.markdown("""
     <div class="hero">
-        <h1>ResuMatch AI</h1>
+        <h1>ResumeMatch AI</h1>
         <p>Unlock Your Career Potential — Optimize, Match, and Apply.</p>
     </div>
 """, unsafe_allow_html=True)
 
-# --- 5. INPUT SECTION ---
+
 c1, c2 = st.columns([1, 1], gap="large")
 
 with c1:
@@ -159,21 +159,20 @@ with c2:
     st.markdown('<div class="input-label">💼 Job Description</div>', unsafe_allow_html=True)
     job_desc = st.text_area("JD", height=130, placeholder="Paste JD here...", label_visibility="collapsed")
 
-# CENTERED BUTTON (Using Streamlit Columns hack for perfect center)
 st.markdown("<br>", unsafe_allow_html=True)
 b1, b2, b3 = st.columns([1.5, 2, 1.5])
 with b2:
     analyze = st.button("🚀 Analyze Match", use_container_width=True)
 
-# --- 6. LOGIC & RESULTS ---
+
 if analyze:
     if uploaded_file and job_desc:
         with st.spinner("Analyzing profile..."):
             try:
                 resume_text = input_pdf_text(uploaded_file)
                 
-                # --- ROBUST PROMPT ---
-                # We ask the AI to label sections strictly so we can regex find them
+                
+    
                 prompt = f"""
                 Act as a Tech Recruiter. Analyze the Resume vs JD.
                 
@@ -198,28 +197,26 @@ if analyze:
                 model = genai.GenerativeModel('gemini-2.5-flash')
                 response = model.generate_content(prompt).text
                 
-                # --- SMART PARSING (REGEX) ---
-                # This finds text *between* the headers, regardless of formatting
                 
-                # 1. SCORE
+                
                 score_match = re.search(r"### SCORE\s*(\d+)", response)
                 score = int(score_match.group(1)) if score_match else 0
                 
-                # 2. SUMMARY
+                
                 summary_match = re.search(r"### SUMMARY\s*(.*?)\s*###", response, re.DOTALL)
                 summary = summary_match.group(1).strip() if summary_match else "Analysis Complete."
                 
-                # 3. KEYWORDS
+                
                 kw_match = re.search(r"### KEYWORDS\s*(.*?)\s*###", response, re.DOTALL)
                 raw_kw = kw_match.group(1).strip() if kw_match else ""
                 keywords = [k.strip() for k in raw_kw.split(',') if k.strip()]
                 
-                # 4. JOBS
+                
                 job_match = re.search(r"### JOBS\s*(.*)", response, re.DOTALL)
                 raw_jobs = job_match.group(1).strip() if job_match else ""
                 jobs = [j.strip() for j in raw_jobs.split(',') if j.strip()]
 
-                # --- DISPLAY GRID ---
+                
                 st.markdown("<hr style='border-color: #374151; margin: 2rem 0;'>", unsafe_allow_html=True)
                 
                 # ROW 1
@@ -229,7 +226,7 @@ if analyze:
                     color = "#10b981" if score >= 70 else "#f59e0b" if score >= 50 else "#ef4444"
                     st.markdown(f"""
                         <div class="result-card" style="text-align:center;">
-                            <h3>🎯 Match Score</h3>
+                            <h3> Match Score</h3>
                             <div style="font-size:4rem; font-weight:800; color:{color};">{score}%</div>
                             <p style="margin-top:10px;">{summary}</p>
                         </div>
@@ -259,7 +256,7 @@ if analyze:
                     st.markdown('</div>', unsafe_allow_html=True)
 
                 with rc4:
-                    st.markdown('<div class="result-card"><h3>💼 Job Matches</h3>', unsafe_allow_html=True)
+                    st.markdown('<div class="result-card"><h3> Job Matches</h3>', unsafe_allow_html=True)
                     if jobs:
                         for job in jobs[:3]:
                             links = get_links(job)
