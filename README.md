@@ -1,10 +1,10 @@
-#  ResuMatch AI: Smart Resume Scorer & Job Recommender
+#  ResumeMatch AI: Smart Resume Scorer & Job Recommender
 
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Google Gemini](https://img.shields.io/badge/Google%20Gemini%20AI-8E75B2?style=for-the-badge&logo=google%20bard&logoColor=white)
 
-**ResuMatch AI** is an intelligent Applicant Tracking System (ATS) simulator designed to help job seekers optimize their resumes. By leveraging Google's Gemini Pro model, it analyzes resumes against job descriptions in real-time, providing a match score, missing keywords, and tailored job recommendations.
+**ResumeMatch AI** is an intelligent Applicant Tracking System (ATS) simulator designed to help job seekers optimize their resumes. By leveraging Google's Gemini Pro model, it analyzes resumes against job descriptions in real-time, providing a match score, missing keywords, and tailored job recommendations.
 
 🔗 **Live Demo:** [Click here to view the App](ats-resume-matching-system.streamlit.app) 
 
